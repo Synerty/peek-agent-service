@@ -4,7 +4,7 @@
 
 HOME=/users/enmac
 
-DIR=${HOME}/peek_agent_pof
+DIR=${HOME}/peek_agent
 AGENT_PYC="$DIR/run_peek_agent.pyc"
 PYTHON_HOME=${HOME}/python27
 
