@@ -70,7 +70,7 @@ echo "Deleting all source files"
 find $DIR -name "*.py" -exec rm {} \;
 
 pushd deploy
-tar cjf ${TAR_DIR}.tar.bz2 -C deploy $TAR_DIR
+tar cjf ${TAR_DIR}.tar.bz2  $TAR_DIR
 
 rm -rf $TAR_DIR
 popd
