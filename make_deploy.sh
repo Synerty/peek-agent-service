@@ -30,7 +30,7 @@ cp -p  peek_agent/src/run_peek_agent.py $DIR
 
 # Init scripts, etc
 cp -p  peek_agent/init/peek_agent.init.rhel.sh $DIR
-cp -p  peek_agent/src/run_peek_agent.sh $DIR
+cp -p  peek_agent/init/run_peek_agent.sh $DIR
 
 # Remove unneeded RapUI components
 rm -rf $DIR/rapui/bower_components
