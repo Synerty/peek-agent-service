@@ -5,7 +5,7 @@ Created on 09/07/2014
 '''
 import logging
 
-from peek_agent.PeekVortexClient import addReconnectPayload
+from peek_platform.PeekVortexClient import peekVortexClient
 from rapui.vortex.Payload import Payload
 from rapui.vortex.PayloadEndpoint import PayloadEndpoint
 
@@ -14,7 +14,10 @@ __author__ = 'peek'
 logger = logging.getLogger(__name__)
 
 # The filter we listen on
-agentEchoFilt = {'key': "peek.agent.echo"}  # LISTEN / SEND
+agentEchoFilt = {
+    'papp' : 'peek_agent',
+    'key': "peek.agent.echo"
+}  # LISTEN / SEND
 
 
 class AgentPeekServerRestartHandler(object):
@@ -23,7 +26,7 @@ class AgentPeekServerRestartHandler(object):
         self._lastPeekServerVortexUuid = None
 
         # When the vortex reconnects, this will make the server echo back to us.
-        addReconnectPayload(Payload(filt=agentEchoFilt))
+        peekVortexClient.addReconnectPayload(Payload(filt=agentEchoFilt))
 
     def _process(self, payload, vortexUuid, **kwargs):
         if self._lastPeekServerVortexUuid is None:
@@ -34,8 +37,8 @@ class AgentPeekServerRestartHandler(object):
             return
 
         logger.info("Peek Server restart detected, restarting agent")
-        from peek_agent.sw_update.AgentSwUpdateManager import AgentSwUpdateManager
-        AgentSwUpdateManager.restartAgent()
+        from peek_agent.sw_update.PeekAgentUpdateManager import PeekAgentUpdateManager
+        PeekAgentUpdateManager.restartProcess()
 
 
 __agentPeekServerRestartHandler = AgentPeekServerRestartHandler()

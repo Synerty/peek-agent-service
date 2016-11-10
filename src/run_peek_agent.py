@@ -46,36 +46,34 @@ def main():
     # import pydevd
     # pydevd.settrace(suspend=False)
 
-    from peek_agent_pof.PofAgentConfig import pofAgentConfig
+
+    from peek_platform import PeekPlatformConfig
+    PeekPlatformConfig.componentName = "peek_agent"
+
+    # The config depends on the componentName, order is important
+    from peek_agent.PeekAgentConfig import peekAgentConfig
+    PeekPlatformConfig.config = peekAgentConfig
 
     # Set default logging level
-    logging.root.setLevel(pofAgentConfig.loggingLevel)
+    logging.root.setLevel(peekAgentConfig.loggingLevel)
 
     # Initialise the rapui Directory object
-    DirSettings.defaultDirChmod = pofAgentConfig.defaultDirChmod
-    DirSettings.tmpDirPath = pofAgentConfig.tmpPath
+    DirSettings.defaultDirChmod = peekAgentConfig.DEFAULT_DIR_CHMOD
+    DirSettings.tmpDirPath = peekAgentConfig.tmpPath
 
     # First, setup the Vortex Agent
-    from peek_agent.PeekVortexClient import connectVortexClient
-    d = connectVortexClient(pofAgentConfig)
+    from peek_platform.PeekVortexClient import peekVortexClient
+    d = peekVortexClient.connect()
 
     # Start Update Handler,
-    from peek_agent.sw_update.AgentSwUpdateHandler import agentSwUpdateHandler
-    d.addCallback(lambda _: agentSwUpdateHandler.start())
-
-    # Start the grid importer
-    from peek_agent_pof.grid.ImportRunner import importRunner
-    d.addCallback(lambda _: importRunner.start())
-
-    # Start Realtime,
-    from peek_agent_pof.realtime.RealtimeHandler import realtimeHandler
-    d.addCallback(lambda _: realtimeHandler.start())
+    from peek_platform.sw_update_client.PeekSwUpdateHandler import peekSwUpdateHandler
+    d.addCallback(lambda _: peekSwUpdateHandler.start())
 
     d.addErrback(printFailure)
 
     # Init the realtime handler
 
-    logger.info('PoF Peek Agent is running')
+    logger.info('Peek Agent is running, version=%s', peekAgentConfig.platformVersion)
     reactor.run()
 
 
