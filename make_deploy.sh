@@ -67,7 +67,7 @@ for f in `grep -l -r  '#BUILD_DATE#' .`; do
     sed -i "s/#BUILD_DATE#/$DATE/g" $f
 done
 
-find ./
+find deploy
 
 echo "Compiling all python modules"
 ( cd $DIR && python -m compileall -f . )
