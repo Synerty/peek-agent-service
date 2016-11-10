@@ -5,6 +5,9 @@ import unittest
 import os
 
 import peek_platform
+
+peek_platform.PeekPlatformConfig.componentName = "unit_test"
+
 from peek_agent.PeekAgentConfig import PeekAgentConfig
 
 logging.basicConfig(level=logging.DEBUG)
@@ -24,7 +27,6 @@ class PeekAgentConfigTest(unittest.TestCase):
 
     def setUp(self):
         PeekAgentConfig._PeekFileConfigBase__instance = None
-        peek_platform.PeekPlatformConfig.componentName = "unit_test"
         self._rmHome()
         os.makedirs(self.HOME_DIR, PeekAgentConfig.DEFAULT_DIR_CHMOD)
 

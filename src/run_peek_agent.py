@@ -11,7 +11,6 @@
  *  Synerty Pty Ltd
  *
 """
-
 from rapui import LoggingSetup
 
 LoggingSetup.setup()
@@ -60,6 +59,10 @@ def main():
     # Initialise the rapui Directory object
     DirSettings.defaultDirChmod = peekAgentConfig.DEFAULT_DIR_CHMOD
     DirSettings.tmpDirPath = peekAgentConfig.tmpPath
+
+    # Load server restart handler handler
+    from peek_platform.PeekServerRestartWatchHandler import PeekServerRestartWatchHandler
+    PeekServerRestartWatchHandler.__unused = False
 
     # First, setup the Vortex Agent
     from peek_platform.PeekVortexClient import peekVortexClient
