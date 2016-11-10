@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 # The filter we listen on
 agentEchoFilt = {
-    'papp' : 'peek_agent',
-    'key': "peek.agent.echo"
+    'papp' : 'peek_platform',
+    'key': "peek_platform.echo"
 }  # LISTEN / SEND
 
 
@@ -37,8 +37,8 @@ class AgentPeekServerRestartHandler(object):
             return
 
         logger.info("Peek Server restart detected, restarting agent")
-        from peek_agent.sw_update.PeekAgentUpdateManager import PeekAgentUpdateManager
-        PeekAgentUpdateManager.restartProcess()
+        from peek_platform.sw_update_client.PeekSwUpdateManager import PeekSwUpdateManager
+        PeekSwUpdateManager.restartProcess()
 
 
 __agentPeekServerRestartHandler = AgentPeekServerRestartHandler()
