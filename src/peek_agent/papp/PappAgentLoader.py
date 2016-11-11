@@ -6,8 +6,8 @@ from _collections import defaultdict
 import os
 
 from peek_agent.PeekAgentConfig import peekAgentConfig
-from peek_platform.papp.PappLoaderBase import PappLoaderBase
 from peek_agent.papp.AgentPlatformApi import AgentPlatformApi
+from peek_platform.papp.PappLoaderBase import PappLoaderBase
 from rapui.site.ResourceUtil import removeResourcePaths, registeredResourcePaths
 from rapui.vortex.PayloadIO import PayloadIO
 from rapui.vortex.Tuple import removeTuplesForTupleNames, \
@@ -62,7 +62,7 @@ class PappAgentLoader(PappLoaderBase):
         pappDirName = peekAgentConfig.pappDir(pappName)
 
         if not pappDirName:
-            logger.warning("Papp version info for %s is missing, loading skipped",
+            logger.warning("Papp dir name for %s is missing, loading skipped",
                            pappName)
             return
 

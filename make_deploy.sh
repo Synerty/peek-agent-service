@@ -32,13 +32,11 @@ mkdir -p $DIR
 
 # Source
 cp -pr rapui/src/rapui $DIR
+cp -pr papp_base/src/papp_base $DIR
 cp -pr peek_platform/src/peek_platform $DIR
 cp -pr peek_agent/src/peek_agent $DIR
 cp -p  peek_agent/src/run_peek_agent.py $DIR
 cp -pr jsoncfg/src/jsoncfg $DIR
-
-# We never serve platform updates
-rm -rf $DIR/peek_platform/sw_update_server
 
 # Init scripts, etc
 cp -p  peek_agent/init/peek_agent.init.rhel.sh $DIR

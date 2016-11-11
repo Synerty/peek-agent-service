@@ -49,6 +49,10 @@ def main():
     from peek_platform import PeekPlatformConfig
     PeekPlatformConfig.componentName = "peek_agent"
 
+    # Tell the platform classes about our instance of the pappSwInstallManager
+    from peek_agent.sw_install.PappSwInstallManager import pappSwInstallManager
+    PeekPlatformConfig.pappSwInstallManager = pappSwInstallManager
+
     # The config depends on the componentName, order is important
     from peek_agent.PeekAgentConfig import peekAgentConfig
     PeekPlatformConfig.config = peekAgentConfig
