@@ -23,14 +23,8 @@ JUNIT_DIR=.junit
 mkdir ${JUNIT_DIR}
 OUT=${JUNIT_DIR}/trial.xml
 
-echo "TEST1 ==================================================================="
-trial --reporter=subunit ${FILES}
-
-echo "TEST2 ==================================================================="
-trial --reporter=subunit ${FILES} | subunit-1to2
-
-echo "TEST3 ==================================================================="
-trial --reporter=subunit ${FILES} | subunit-1to2 | subunit2junitxml -o $OUT
+# Trial exists non-zero if there are failed tests, we want to ignore this
+trial --reporter=subunit ${FILES} | subunit-1to2 | subunit2junitxml -o $OUT || true
 
 echo "Finished"
 
