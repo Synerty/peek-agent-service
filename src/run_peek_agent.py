@@ -67,10 +67,13 @@ def main():
     # First, setup the Vortex Agent
     from peek_platform.PeekVortexClient import peekVortexClient
     d = peekVortexClient.connect()
+    d.addErrback(printFailure)
 
     # Start Update Handler,
     from peek_platform.sw_update_client.PeekSwUpdateHandler import peekSwUpdateHandler
-    d.addCallback(lambda _: peekSwUpdateHandler.start())
+    # Add both, The peek client might fail to connect, and if it does, the payload
+    # sent from the peekSwUpdater will be queued and sent when it does connect.
+    d.addBoth(lambda _: peekSwUpdateHandler.start())
 
     d.addErrback(printFailure)
 
