@@ -15,7 +15,7 @@ export PYTHONPATH
 
 UT_DIRS="peek_agent"
 
-FILES=`grep -lR unittest.TestCase $UT_DIRS`
+FILES=`find $UT_DIRS -name "*.py" -exec grep -l unittest.TestCase {} \;`
 echo "Running unit tests in files:"
 echo $FILES
 
