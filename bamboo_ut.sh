@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -o nounset
+set -o errexit
+set -x
+
 # activate virtualenv
 export PATH=/home/bamboo/pyenvs/py_ut/bin:$PATH
 
