@@ -75,6 +75,11 @@ def main():
     # sent from the peekSwUpdater will be queued and sent when it does connect.
     d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
+
+    # Load all Papps
+    from peek_agent.papp.PappAgentLoader import pappAgentLoader
+    d.addBoth(lambda _ : pappAgentLoader.loadAllPapps())
+
     d.addErrback(printFailure)
 
     # Init the realtime handler
