@@ -70,10 +70,10 @@ def main():
     d.addErrback(printFailure)
 
     # Start Update Handler,
-    from peek_platform.sw_update_client.PeekSwUpdateHandler import peekSwUpdateHandler
+    from peek_platform.sw_version.PeekSwVersionPollHandler import peekSwVersionPollHandler
     # Add both, The peek client might fail to connect, and if it does, the payload
     # sent from the peekSwUpdater will be queued and sent when it does connect.
-    d.addBoth(lambda _: peekSwUpdateHandler.start())
+    d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
     d.addErrback(printFailure)
 
