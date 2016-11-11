@@ -11,6 +11,7 @@ export PATH=/home/bamboo/pyenvs/py_ut/bin:$PATH
 PYTHONPATH="`pwd`/peek_platform/src"
 PYTHONPATH="$PYTHONPATH:`pwd`/rapui/src"
 PYTHONPATH="$PYTHONPATH:`pwd`/peek_agent/src"
+PYTHONPATH="$PYTHONPATH:`pwd`/jsoncfg/src"
 export PYTHONPATH
 
 UT_DIRS="peek_agent"
