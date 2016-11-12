@@ -74,7 +74,7 @@ class PappAgentLoader(PappLoaderBase):
         # Everyone gets their own instance of the papp API
         agentPlatformApi = AgentPlatformApi()
 
-        srcDir = os.path.join(self._pappPath, pappDirName)
+        srcDir = os.path.join(self._pappPath, pappDirName, 'cpython')
         modPath = os.path.join(srcDir, pappName, "PappAgentMain.py")
         if not os.path.exists(modPath) and os.path.exists(modPath + u"c"): # .pyc
             PappAgentMainMod = imp.load_compiled('%s.PappAgentMain' % pappName,
