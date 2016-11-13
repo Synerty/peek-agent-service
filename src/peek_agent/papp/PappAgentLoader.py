@@ -56,7 +56,7 @@ class PappAgentLoader(PappLoaderBase):
         self._unloadPappPackage(pappName, oldLoadedPapp)
 
 
-    def loadPapp(self, pappName):
+    def _loadPappThrows(self, pappName):
         self.unloadPapp(pappName)
 
         pappDirName = peekAgentConfig.pappDir(pappName)
