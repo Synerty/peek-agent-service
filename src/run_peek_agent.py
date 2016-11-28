@@ -11,15 +11,15 @@
  *  Synerty Pty Ltd
  *
 """
-from rapui import LoggingSetup
+from txhttputil.util import LoggingUtil
 
-LoggingSetup.setup()
+LoggingUtil.setup()
 
 from twisted.internet import reactor
 
-from rapui import RapuiConfig
-from rapui.DeferUtil import printFailure
-from rapui.util.Directory import DirSettings
+from txhttputil import RapuiConfig
+from txhttputil import printFailure
+from txhttputil import DirSettings
 
 RapuiConfig.enabledJsRequire = False
 
@@ -27,7 +27,7 @@ import logging
 
 # EXAMPLE LOGGING CONFIG
 # Hide messages from vortex
-# logging.getLogger('rapui.vortex.VortexClient').setLevel(logging.INFO)
+# logging.getLogger('txhttputil.vortex.VortexClient').setLevel(logging.INFO)
 
 # logging.getLogger('peek_agent_pof.realtime.RealtimePollerEcomProtocol'
 #                   ).setLevel(logging.INFO)
@@ -68,7 +68,7 @@ def main():
     # Set default logging level
     logging.root.setLevel(peekAgentConfig.loggingLevel)
 
-    # Initialise the rapui Directory object
+    # Initialise the txhttputil Directory object
     DirSettings.defaultDirChmod = peekAgentConfig.DEFAULT_DIR_CHMOD
     DirSettings.tmpDirPath = peekAgentConfig.tmpPath
 
