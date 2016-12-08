@@ -73,16 +73,16 @@ def main():
     DirSettings.tmpDirPath = peekAgentConfig.tmpPath
 
     # Load server restart handler handler
-    from peek_platform.PeekServerRestartWatchHandler import PeekServerRestartWatchHandler
+    from peek_platform import PeekServerRestartWatchHandler
     PeekServerRestartWatchHandler.__unused = False
 
     # First, setup the Vortex Agent
-    from peek_platform.PeekVortexClient import peekVortexClient
+    from peek_platform import peekVortexClient
     d = peekVortexClient.connect()
     d.addErrback(printFailure)
 
     # Start Update Handler,
-    from peek_platform.sw_version.PeekSwVersionPollHandler import peekSwVersionPollHandler
+    from peek_platform import peekSwVersionPollHandler
     # Add both, The peek client might fail to connect, and if it does, the payload
     # sent from the peekSwUpdater will be queued and sent when it does connect.
     d.addBoth(lambda _: peekSwVersionPollHandler.start())

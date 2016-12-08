@@ -4,26 +4,27 @@ import os
 import sys
 from _collections import defaultdict
 
-from peek_agent.PeekAgentConfig import peekAgentConfig
-from peek_agent.papp.AgentPlatformApi import AgentPlatformApi
-from peek_platform.papp.PappLoaderBase import PappLoaderBase
 from txhttputil import PayloadIO
 from txhttputil import removeResourcePaths, registeredResourcePaths
 from txhttputil import removeTuplesForTupleNames, \
     registeredTupleNames, tupleForTupleName
 
+from peek_agent.PeekAgentConfig import peekAgentConfig
+from peek_agent.papp.AgentPlatformApi import AgentPlatformApi
+from peek_platform.papp import PappLoaderABC
+
 logger = logging.getLogger(__name__)
 
-class PappAgentLoader(PappLoaderBase):
+class PappAgentLoader(PappLoaderABC):
     _instance = None
 
     def __new__(cls, *args, **kwargs):
         assert cls._instance is None, "PappAgentLoader is a singleton, don't construct it"
-        cls._instance = PappLoaderBase.__new__(cls)
+        cls._instance = PappLoaderABC.__new__(cls)
         return cls._instance
 
     def __init__(self):
-        PappLoaderBase.__init__(self)
+        PappLoaderABC.__init__(self)
 
         from peek_agent.PeekAgentConfig import peekAgentConfig
         self._pappPath = peekAgentConfig.pappSoftwarePath

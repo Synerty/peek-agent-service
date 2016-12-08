@@ -14,10 +14,10 @@
 '''
 import logging
 
-from peek_platform.file_config.PeekFileConfigBase import PeekFileConfigBase
-from peek_platform.file_config.PeekFileConfigPeekServerClientMixin import \
+from peek_platform import PeekFileConfigBase
+from peek_platform import \
     PeekFileConfigPeekServerClientMixin
-from peek_platform.file_config.PeekFileConfigPlatformMixin import \
+from peek_platform import \
     PeekFileConfigPlatformMixin
 
 logger = logging.getLogger(__name__)
