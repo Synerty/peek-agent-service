@@ -32,11 +32,11 @@ class PappAgentLoader(PappLoaderABC):
     def _loadPappThrows(self, pappName: str, EntryHookClass: Type[PappCommonEntryHookABC],
                         pappRootDir: str) -> None:
         # Everyone gets their own instance of the papp API
-        agentPlatformApi = PeekAgentPlatformHook()
+        platformApi = PeekAgentPlatformHook()
 
         pappMain = EntryHookClass(pappName=pappName,
                                   pappRootDir=pappRootDir,
-                                  platform=agentPlatformApi)
+                                  platform=platformApi)
 
         # Load the papp
         pappMain.load()
