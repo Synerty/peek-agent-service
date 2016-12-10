@@ -59,7 +59,7 @@ class PappAgentLoader(PappLoaderABC):
     def _loadPappThrows(self, pappName):
         self.unloadPapp(pappName)
 
-        pappDirName = peekAgentConfig.pappDir(pappName)
+        pappDirName = peekAgentConfig.pappDevelDir(pappName)
 
         if not pappDirName:
             logger.warning("Papp dir name for %s is missing, loading skipped",
