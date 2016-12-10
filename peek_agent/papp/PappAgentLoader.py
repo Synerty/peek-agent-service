@@ -4,7 +4,7 @@ from typing import Type
 from papp_base.PappCommonEntryHookABC import PappCommonEntryHookABC
 from papp_base.agent.PappAgentEntryHookABC import PappAgentEntryHookABC
 from peek_agent.papp.PeekAgentPlatformHook import PeekAgentPlatformHook
-from peek_platform.papp import PappLoaderABC
+from peek_platform.papp.PappLoaderABC import PappLoaderABC
 
 logger = logging.getLogger(__name__)
 

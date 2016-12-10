@@ -1,5 +1,5 @@
 from peek_agent.papp.PappAgentLoader import pappAgentLoader
-from peek_platform import PeekSwInstallManagerBase
+from peek_platform.sw_install.PeekSwInstallManagerBase import PeekSwInstallManagerBase
 
 __author__ = 'synerty'
 

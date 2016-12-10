@@ -1,36 +1,25 @@
 #!/usr/bin/env python
 """
- * synnova.py
- *
- *  Copyright Synerty Pty Ltd 2013
- *
- *  This software is proprietary, you are not free to copy
- *  or redistribute this code in any format.
- *
- *  All rights to this software are reserved by
- *  Synerty Pty Ltd
- *
+
+  Copyright Synerty Pty Ltd 2013
+
+  This software is proprietary, you are not free to copy
+  or redistribute this code in any format.
+
+  All rights to this software are reserved by
+  Synerty Pty Ltd
+
 """
-from txhttputil.util import LoggingUtil
-
-LoggingUtil.setup()
-
-from twisted.internet import reactor
-
-from txhttputil import RapuiConfig
-from txhttputil import printFailure
-from txhttputil import DirSettings
-
-RapuiConfig.enabledJsRequire = False
 
 import logging
 
-# EXAMPLE LOGGING CONFIG
-# Hide messages from vortex
-# logging.getLogger('txhttputil.vortex.VortexClient').setLevel(logging.INFO)
+from pytmpdir.Directory import DirSettings
+from twisted.internet import reactor
+from txhttputil.site.FileUploadRequest import FileUploadRequest
+from txhttputil.util.DeferUtil import printFailure
+from txhttputil.util.LoggingUtil import setupLogging
 
-# logging.getLogger('peek_agent_pof.realtime.RealtimePollerEcomProtocol'
-#                   ).setLevel(logging.INFO)
+setupLogging()
 
 logger = logging.getLogger(__name__)
 
@@ -39,13 +28,7 @@ logger = logging.getLogger(__name__)
 reactor.suggestThreadPoolSize(10)
 
 
-def main():
-    # defer.setDebugging(True)
-    # sys.argv.remove(DEBUG_ARG)
-    # import pydevd
-    # pydevd.settrace(suspend=False)
-
-
+def setupPlatform():
     from peek_platform import PeekPlatformConfig
     PeekPlatformConfig.componentName = "peek_agent"
 
@@ -71,31 +54,41 @@ def main():
     # Initialise the txhttputil Directory object
     DirSettings.defaultDirChmod = peekAgentConfig.DEFAULT_DIR_CHMOD
     DirSettings.tmpDirPath = peekAgentConfig.tmpPath
+    FileUploadRequest.tmpFilePath = peekAgentConfig.tmpPath
+
+
+def main():
+    # defer.setDebugging(True)
+    # sys.argv.remove(DEBUG_ARG)
+    # import pydevd
+    # pydevd.settrace(suspend=False)
+
+    setupPlatform()
 
     # Load server restart handler handler
     from peek_platform import PeekServerRestartWatchHandler
     PeekServerRestartWatchHandler.__unused = False
 
     # First, setup the Vortex Agent
-    from peek_platform import peekVortexClient
+    from peek_platform.PeekVortexClient import peekVortexClient
     d = peekVortexClient.connect()
     d.addErrback(printFailure)
 
     # Start Update Handler,
-    from peek_platform import peekSwVersionPollHandler
+    from peek_platform.sw_version.PeekSwVersionPollHandler import peekSwVersionPollHandler
     # Add both, The peek client might fail to connect, and if it does, the payload
     # sent from the peekSwUpdater will be queued and sent when it does connect.
     d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
-
     # Load all Papps
     from peek_agent.papp.PappAgentLoader import pappAgentLoader
-    d.addBoth(lambda _ : pappAgentLoader.loadAllPapps())
+    d.addBoth(lambda _: pappAgentLoader.loadAllPapps())
 
     d.addErrback(printFailure)
 
     # Init the realtime handler
 
+    from peek_agent.PeekAgentConfig import peekAgentConfig
     logger.info('Peek Agent is running, version=%s', peekAgentConfig.platformVersion)
     reactor.run()
 
