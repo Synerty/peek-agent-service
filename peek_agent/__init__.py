@@ -1,4 +1,5 @@
 __author__ = 'peek'
+__version__ = ""
 
 from txhttputil.util.ModuleUtil import filterModules
 
