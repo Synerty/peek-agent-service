@@ -14,7 +14,7 @@ if os.path.isdir(egg_info):
 setup(
     name=package_name,
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-    install_requires=["peek_platform==%s" % package_version],
+    install_requires=["peek_platform"],
     version=package_version,
     description='Peek Platform - Agent Service',
     author='Synerty',
