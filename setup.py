@@ -14,6 +14,11 @@ if os.path.isdir(egg_info):
 setup(
     name=package_name,
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    entry_points={
+        'console_scripts': [
+            'run_peek_agent = peek_agent.run_peek_agent.main',
+        ],
+    },
     install_requires=["peek_platform"],
     version=package_version,
     description='Peek Platform - Agent Service',
