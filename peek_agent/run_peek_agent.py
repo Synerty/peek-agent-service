@@ -41,8 +41,8 @@ def setupPlatform():
     PeekPlatformConfig.peekSwInstallManager = peekSwInstallManager
 
     # Tell the platform classes about our instance of the PeekLoaderBase
-    from peek_agent.plugin.PluginAgentLoader import pluginAgentLoader
-    PeekPlatformConfig.pluginLoader = pluginAgentLoader
+    from peek_agent.plugin.AgentPluginLoader import agentPluginLoader
+    PeekPlatformConfig.pluginLoader = agentPluginLoader
 
     # The config depends on the componentName, order is important
     from peek_agent.PeekAgentConfig import peekAgentConfig
@@ -81,8 +81,8 @@ def main():
     d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
     # Load all Plugins
-    from peek_agent.plugin.PluginAgentLoader import pluginAgentLoader
-    d.addBoth(lambda _: pluginAgentLoader.loadAllPlugins())
+    from peek_agent.plugin.AgentPluginLoader import agentPluginLoader
+    d.addBoth(lambda _: agentPluginLoader.loadAllPlugins())
 
     d.addErrback(printFailure)
 

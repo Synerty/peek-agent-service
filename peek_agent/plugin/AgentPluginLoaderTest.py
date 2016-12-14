@@ -5,20 +5,20 @@ from twisted.internet import reactor
 from twisted.internet.defer import Deferred
 from twisted.trial import unittest
 
-from .PluginAgentLoader import pluginAgentLoader
+from .AgentPluginLoader import agentPluginLoader
 
 logger = logging.getLogger(__name__)
 
 PLUGIN_NOOP = "plugin_noop"
 
 
-class PluginAgentLoaderTest(unittest.TestCase):
+class AgentPluginLoaderTest(unittest.TestCase):
     def testLoadAll(self):
-        pluginAgentLoader.loadAllPlugins()
+        agentPluginLoader.loadAllPlugins()
 
-        logger.info(pluginAgentLoader.listPlugins())
+        logger.info(agentPluginLoader.listPlugins())
 
-        for plugin in list(pluginAgentLoader._loadedPlugins.values()):
+        for plugin in list(agentPluginLoader._loadedPlugins.values()):
             logger.info("configUrl = %s", plugin.configUrl())
 
         d = Deferred()
@@ -28,10 +28,10 @@ class PluginAgentLoaderTest(unittest.TestCase):
     def testUnregister(self):
         loadedModuleBefore = set(sys.modules)
 
-        pluginAgentLoader.loadPlugin(PLUGIN_NOOP)
+        agentPluginLoader.loadPlugin(PLUGIN_NOOP)
         self.assertTrue(PLUGIN_NOOP in sys.modules)
 
-        pluginAgentLoader.unloadPlugin(PLUGIN_NOOP)
+        agentPluginLoader.unloadPlugin(PLUGIN_NOOP)
 
         loadedModuleNow = set(sys.modules) - loadedModuleBefore
 
@@ -40,10 +40,10 @@ class PluginAgentLoaderTest(unittest.TestCase):
             self.assertFalse(PLUGIN_NOOP in modName)
 
     def testReRegister(self):
-        pluginAgentLoader.loadPlugin(PLUGIN_NOOP)
-        pluginAgentLoader.loadPlugin(PLUGIN_NOOP)
+        agentPluginLoader.loadPlugin(PLUGIN_NOOP)
+        agentPluginLoader.loadPlugin(PLUGIN_NOOP)
 
-        for plugin in list(pluginAgentLoader._loadedPlugins.values()):
+        for plugin in list(agentPluginLoader._loadedPlugins.values()):
             logger.info("configUrl = %s", plugin.configUrl())
 
         d = Deferred()
