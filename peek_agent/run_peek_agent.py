@@ -32,17 +32,17 @@ def setupPlatform():
     from peek_platform import PeekPlatformConfig
     PeekPlatformConfig.componentName = "peek_agent"
 
-    # Tell the platform classes about our instance of the PappSwInstallManager
-    from peek_agent.sw_install.PappSwInstallManager import pappSwInstallManager
-    PeekPlatformConfig.pappSwInstallManager = pappSwInstallManager
+    # Tell the platform classes about our instance of the PluginSwInstallManager
+    from peek_agent.sw_install.PluginSwInstallManager import pluginSwInstallManager
+    PeekPlatformConfig.pluginSwInstallManager = pluginSwInstallManager
 
     # Tell the platform classes about our instance of the PeekSwInstallManager
     from peek_agent.sw_install.PeekSwInstallManager import peekSwInstallManager
     PeekPlatformConfig.peekSwInstallManager = peekSwInstallManager
 
     # Tell the platform classes about our instance of the PeekLoaderBase
-    from peek_agent.papp.PappAgentLoader import pappAgentLoader
-    PeekPlatformConfig.pappLoader = pappAgentLoader
+    from peek_agent.plugin.PluginAgentLoader import pluginAgentLoader
+    PeekPlatformConfig.pluginLoader = pluginAgentLoader
 
     # The config depends on the componentName, order is important
     from peek_agent.PeekAgentConfig import peekAgentConfig
@@ -80,9 +80,9 @@ def main():
     # sent from the peekSwUpdater will be queued and sent when it does connect.
     d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
-    # Load all Papps
-    from peek_agent.papp.PappAgentLoader import pappAgentLoader
-    d.addBoth(lambda _: pappAgentLoader.loadAllPapps())
+    # Load all Plugins
+    from peek_agent.plugin.PluginAgentLoader import pluginAgentLoader
+    d.addBoth(lambda _: pluginAgentLoader.loadAllPlugins())
 
     d.addErrback(printFailure)
 

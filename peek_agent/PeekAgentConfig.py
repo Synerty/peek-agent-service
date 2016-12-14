@@ -17,23 +17,18 @@ import logging
 from peek_platform.file_config.PeekFileConfigABC import PeekFileConfigABC
 from peek_platform.file_config.PeekFileConfigPeekServerClientMixin import \
     PeekFileConfigPeekServerClientMixin
-from peek_platform.file_config.PeekFileConfigPlatformABC import \
-    PeekFileConfigPlatformABC
+from peek_platform.file_config.PeekFileConfigPlatformMixin import \
+    PeekFileConfigPlatformMixin
 
 logger = logging.getLogger(__name__)
 
 
 class PeekAgentConfig(PeekFileConfigABC,
                       PeekFileConfigPeekServerClientMixin,
-                      PeekFileConfigPlatformABC):
+                      PeekFileConfigPlatformMixin):
     """
     This class creates a basic agent configuration
     """
-
-    @property
-    def platformVersion(self):
-        import peek_agent
-        return peek_agent.__version__
 
 
 peekAgentConfig = PeekAgentConfig()

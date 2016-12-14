@@ -32,7 +32,7 @@ mkdir -p $DIR
 
 # Source
 cp -pr rapui/src/rapui $DIR
-cp -pr papp_base/src/papp_base $DIR
+cp -pr plugin_base/src/plugin_base $DIR
 cp -pr peek_platform/src/peek_platform $DIR
 cp -pr peek_agent/src/peek_agent $DIR
 cp -p  peek_agent/src/run_peek_agent.py $DIR
