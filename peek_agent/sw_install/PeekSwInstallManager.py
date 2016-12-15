@@ -1,10 +1,10 @@
 from peek_agent.plugin.AgentPluginLoader import agentPluginLoader
-from peek_platform.sw_install.PeekSwInstallManagerBase import PeekSwInstallManagerBase
+from peek_platform.sw_install.PeekSwInstallManagerABC import PeekSwInstallManagerABC
 
 __author__ = 'synerty'
 
 
-class PeekSwInstallManager(PeekSwInstallManagerBase):
+class PeekSwInstallManager(PeekSwInstallManagerABC):
 
     def _stopCode(self):
         agentPluginLoader.unloadAllPlugins()
