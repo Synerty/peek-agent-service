@@ -16,7 +16,7 @@ setup(
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     entry_points={
         'console_scripts': [
-            'run_peek_agent = peek-agent.run_peek_agent.main',
+            'run_peek_agent = peek_agent.run_peek_agent.main',
         ],
     },
     install_requires=["peek-platform"],
