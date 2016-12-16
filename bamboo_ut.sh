@@ -10,11 +10,11 @@ export PATH=/home/bamboo/pyenvs/py_ut/bin:$PATH
 # Define python path
 PYTHONPATH="`pwd`/peek_platform/src"
 PYTHONPATH="$PYTHONPATH:`pwd`/rapui/src"
-PYTHONPATH="$PYTHONPATH:`pwd`/peek_agent/src"
+PYTHONPATH="$PYTHONPATH:`pwd`/peek-agent/src"
 PYTHONPATH="$PYTHONPATH:`pwd`/jsoncfg/src"
 export PYTHONPATH
 
-UT_DIRS="peek_agent"
+UT_DIRS="peek-agent"
 
 FILES=`find $UT_DIRS -name "*.py" -exec grep -l unittest.TestCase {} \;`
 echo "Running unit tests in files:"

@@ -4,7 +4,7 @@ from distutils.core import setup
 
 from setuptools import find_packages
 
-package_name = "peek_agent"
+package_name = "peek-agent"
 package_version = '0.0.6dev123456'
 
 egg_info = "%s.egg-info" % package_name
@@ -16,10 +16,10 @@ setup(
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     entry_points={
         'console_scripts': [
-            'run_peek_agent = peek_agent.run_peek_agent.main',
+            'run_peek_agent = peek-agent.run_peek_agent.main',
         ],
     },
-    install_requires=["peek_platform"],
+    install_requires=["peek-platform"],
     version=package_version,
     description='Peek Platform - Agent Service',
     author='Synerty',
