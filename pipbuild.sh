@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PACKAGE="peek-agent"
+PACKAGE="peek_agent"
 
 set -o nounset
 set -o errexit
