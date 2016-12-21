@@ -19,6 +19,8 @@ from txhttputil.site.FileUploadRequest import FileUploadRequest
 from txhttputil.util.DeferUtil import printFailure
 from txhttputil.util.LoggingUtil import setupLogging
 
+from peek_platform import PeekPlatformConfig
+
 setupLogging()
 
 logger = logging.getLogger(__name__)
@@ -33,28 +35,28 @@ def setupPlatform():
     PeekPlatformConfig.componentName = "peek-agent"
 
     # Tell the platform classes about our instance of the PluginSwInstallManager
-    from peek_agent.sw_install.PluginSwInstallManager import pluginSwInstallManager
-    PeekPlatformConfig.pluginSwInstallManager = pluginSwInstallManager
+    from peek_agent.sw_install.PluginSwInstallManager import PluginSwInstallManager
+    PeekPlatformConfig.pluginSwInstallManager = PluginSwInstallManager()
 
     # Tell the platform classes about our instance of the PeekSwInstallManager
-    from peek_agent.sw_install.PeekSwInstallManager import peekSwInstallManager
-    PeekPlatformConfig.peekSwInstallManager = peekSwInstallManager
+    from peek_agent.sw_install.PeekSwInstallManager import PeekSwInstallManager
+    PeekPlatformConfig.peekSwInstallManager = PeekSwInstallManager()
 
     # Tell the platform classes about our instance of the PeekLoaderBase
-    from peek_agent.plugin.AgentPluginLoader import agentPluginLoader
-    PeekPlatformConfig.pluginLoader = agentPluginLoader
+    from peek_agent.plugin.AgentPluginLoader import AgentPluginLoader
+    PeekPlatformConfig.pluginLoader = AgentPluginLoader()
 
     # The config depends on the componentName, order is important
-    from peek_agent.PeekAgentConfig import peekAgentConfig
-    PeekPlatformConfig.config = peekAgentConfig
+    from peek_agent.PeekAgentConfig import PeekAgentConfig
+    PeekPlatformConfig.config = PeekAgentConfig()
 
     # Set default logging level
-    logging.root.setLevel(peekAgentConfig.loggingLevel)
+    logging.root.setLevel(PeekPlatformConfig.config.loggingLevel)
 
     # Initialise the txhttputil Directory object
-    DirSettings.defaultDirChmod = peekAgentConfig.DEFAULT_DIR_CHMOD
-    DirSettings.tmpDirPath = peekAgentConfig.tmpPath
-    FileUploadRequest.tmpFilePath = peekAgentConfig.tmpPath
+    DirSettings.defaultDirChmod = PeekPlatformConfig.config.DEFAULT_DIR_CHMOD
+    DirSettings.tmpDirPath = PeekPlatformConfig.config.tmpPath
+    FileUploadRequest.tmpFilePath = PeekPlatformConfig.config.tmpPath
 
 
 def main():
@@ -81,15 +83,13 @@ def main():
     d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
     # Load all Plugins
-    from peek_agent.plugin.AgentPluginLoader import agentPluginLoader
-    d.addBoth(lambda _: agentPluginLoader.loadAllPlugins())
+    d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadAllPlugins())
 
     d.addErrback(printFailure)
 
     # Init the realtime handler
 
-    from peek_agent.PeekAgentConfig import peekAgentConfig
-    logger.info('Peek Agent is running, version=%s', peekAgentConfig.platformVersion)
+    logger.info('Peek Agent is running, version=%s', PeekPlatformConfig.config.platformVersion)
     reactor.run()
 
 

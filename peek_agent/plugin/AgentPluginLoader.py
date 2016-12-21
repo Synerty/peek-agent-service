@@ -47,4 +47,3 @@ class AgentPluginLoader(PluginLoaderABC):
         self._loadedPlugins[pluginName] = pluginMain
 
 
-agentPluginLoader = AgentPluginLoader()

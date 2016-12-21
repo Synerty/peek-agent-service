@@ -33,4 +33,3 @@ class PeekAgentConfig(PeekFileConfigABC,
     """
 
 
-peekAgentConfig = PeekAgentConfig()
