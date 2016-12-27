@@ -1,12 +1,13 @@
 import logging
-from typing import Type
+from typing import Type, Tuple
 
-from peek_plugin_base.PluginCommonEntryHookABC import PluginCommonEntryHookABC
-from peek_plugin_base.agent.PluginAgentEntryHookABC import PluginAgentEntryHookABC
 from peek_agent.plugin.PeekAgentPlatformHook import PeekAgentPlatformHook
 from peek_platform.plugin.PluginLoaderABC import PluginLoaderABC
+from peek_plugin_base.PluginCommonEntryHookABC import PluginCommonEntryHookABC
+from peek_plugin_base.agent.PluginAgentEntryHookABC import PluginAgentEntryHookABC
 
 logger = logging.getLogger(__name__)
+
 
 class AgentPluginLoader(PluginLoaderABC):
     _instance = None
@@ -28,15 +29,16 @@ class AgentPluginLoader(PluginLoaderABC):
     def _platformServiceNames(self) -> [str]:
         return ["agent"]
 
-
-    def _loadPluginThrows(self, pluginName: str, EntryHookClass: Type[PluginCommonEntryHookABC],
-                        pluginRootDir: str) -> None:
+    def _loadPluginThrows(self, pluginName: str,
+                          EntryHookClass: Type[PluginCommonEntryHookABC],
+                          pluginRootDir: str,
+                          requiresService: Tuple[str, ...]) -> None:
         # Everyone gets their own instance of the plugin API
         platformApi = PeekAgentPlatformHook()
 
         pluginMain = EntryHookClass(pluginName=pluginName,
-                                  pluginRootDir=pluginRootDir,
-                                  platform=platformApi)
+                                    pluginRootDir=pluginRootDir,
+                                    platform=platformApi)
 
         # Load the plugin
         pluginMain.load()
@@ -45,5 +47,3 @@ class AgentPluginLoader(PluginLoaderABC):
         pluginMain.start()
 
         self._loadedPlugins[pluginName] = pluginMain
-
-
