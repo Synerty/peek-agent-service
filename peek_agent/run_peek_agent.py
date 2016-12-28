@@ -14,6 +14,7 @@
 import logging
 
 from pytmpdir.Directory import DirSettings
+from twisted.internet import defer
 from twisted.internet import reactor
 from txhttputil.site.FileUploadRequest import FileUploadRequest
 from txhttputil.util.DeferUtil import printFailure
@@ -60,7 +61,7 @@ def setupPlatform():
 
 
 def main():
-    # defer.setDebugging(True)
+    defer.setDebugging(True)
     # sys.argv.remove(DEBUG_ARG)
     # import pydevd
     # pydevd.settrace(suspend=False)
