@@ -14,12 +14,14 @@
 import logging
 
 from pytmpdir.Directory import DirSettings
+from twisted.internet import defer
 from twisted.internet import reactor
 from txhttputil.site.FileUploadRequest import FileUploadRequest
 from txhttputil.util.DeferUtil import printFailure
 from txhttputil.util.LoggingUtil import setupLogging
 
-from peek_platform import PeekPlatformConfig
+from peek_plugin_base.PeekVortexUtil import peekAgentName
+from vortex.VortexFactory import VortexFactory
 
 setupLogging()
 
@@ -32,7 +34,7 @@ reactor.suggestThreadPoolSize(10)
 
 def setupPlatform():
     from peek_platform import PeekPlatformConfig
-    PeekPlatformConfig.componentName = "peek-agent"
+    PeekPlatformConfig.componentName = peekAgentName
 
     # Tell the platform classes about our instance of the PluginSwInstallManager
     from peek_agent.sw_install.PluginSwInstallManager import PluginSwInstallManager
@@ -60,7 +62,7 @@ def setupPlatform():
 
 
 def main():
-    # defer.setDebugging(True)
+    defer.setDebugging(True)
     # sys.argv.remove(DEBUG_ARG)
     # import pydevd
     # pydevd.settrace(suspend=False)
@@ -71,9 +73,13 @@ def main():
     from peek_platform import PeekServerRestartWatchHandler
     PeekServerRestartWatchHandler.__unused = False
 
-    # First, setup the Vortex Agent
-    from peek_platform.PeekVortexClient import peekVortexClient
-    d = peekVortexClient.connect()
+    # First, setup the VortexServer Agent
+
+    from peek_platform import PeekPlatformConfig
+    d = VortexFactory.createClient(PeekPlatformConfig.componentName,
+                                   PeekPlatformConfig.config.peekServerHost,
+                                   PeekPlatformConfig.config.peekServerPort)
+
     d.addErrback(printFailure)
 
     # Start Update Handler,
@@ -85,11 +91,14 @@ def main():
     # Load all Plugins
     d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadAllPlugins())
 
+    def startedSuccessfully(_):
+        logger.info('Peek Agent is running, version=%s',
+                    PeekPlatformConfig.config.platformVersion)
+        return _
+
+    d.addCallback(startedSuccessfully)
     d.addErrback(printFailure)
 
-    # Init the realtime handler
-
-    logger.info('Peek Agent is running, version=%s', PeekPlatformConfig.config.platformVersion)
     reactor.run()
 
 
