@@ -43,7 +43,7 @@ setup(
     package_data={'': package_files},
     entry_points={
         'console_scripts': [
-            'run_peek_agent = peek_agent.run_peek_agent.main',
+            'run_peek_agent = peek_agent.run_peek_agent:main',
         ],
     },
     install_requires=["peek-platform"],
