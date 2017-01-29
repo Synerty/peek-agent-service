@@ -13,3 +13,4 @@ build/
 # Ignore pycharm project files
 .idea/
 
+MANIFEST
