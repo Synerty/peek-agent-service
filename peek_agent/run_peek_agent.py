@@ -21,6 +21,7 @@ from txhttputil.util.DeferUtil import printFailure
 from txhttputil.util.LoggingUtil import setupLogging
 
 from peek_plugin_base.PeekVortexUtil import peekAgentName
+from vortex.DeferUtil import vortexLogFailure
 from vortex.VortexFactory import VortexFactory
 
 setupLogging()
@@ -97,7 +98,8 @@ def main():
         return _
 
     d.addCallback(startedSuccessfully)
-    d.addErrback(printFailure)
+
+    d.addErrback(vortexLogFailure, logger, consumeError=True)
 
     reactor.run()
 
