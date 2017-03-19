@@ -1,6 +1,6 @@
 import os
 import shutil
-from distutils.core import setup
+from setuptools import setup
 
 from setuptools import find_packages
 
@@ -42,7 +42,7 @@ package_files = find_package_files()
 
 setup(
     name=pip_package_name,
-    packages=[py_package_name],
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     package_data={'': package_files},
     entry_points={
         'console_scripts': [
