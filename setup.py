@@ -50,7 +50,7 @@ setup(
         ],
     },
     install_requires=["peek-platform"],
-    version=package_version,
+    zip_safe=False,version=package_version,
     description='Peek Platform - Agent Service',
     author='Synerty',
     author_email='contact@synerty.com',
