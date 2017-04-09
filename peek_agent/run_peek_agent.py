@@ -108,6 +108,7 @@ def main():
 
     d.addErrback(vortexLogFailure, logger, consumeError=True)
 
+    reactor.addSystemEventTrigger('before', 'shutdown', VortexFactory.shutdown)
     reactor.addSystemEventTrigger('before', 'shutdown',
                                   PeekPlatformConfig.pluginLoader.unloadAllPlugins)
 
