@@ -97,7 +97,8 @@ def main():
     d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
     # Load all Plugins
-    d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadAllPlugins())
+    d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadCorePlugins())
+    d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadOptionalPlugins())
 
     def startedSuccessfully(_):
         logger.info('Peek Agent is running, version=%s',
@@ -108,9 +109,11 @@ def main():
 
     d.addErrback(vortexLogFailure, logger, consumeError=True)
 
-    reactor.addSystemEventTrigger('before', 'shutdown', VortexFactory.shutdown)
     reactor.addSystemEventTrigger('before', 'shutdown',
-                                  PeekPlatformConfig.pluginLoader.unloadAllPlugins)
+                                  PeekPlatformConfig.pluginLoader.unloadOptionalPlugins)
+    reactor.addSystemEventTrigger('before', 'shutdown',
+                                  PeekPlatformConfig.pluginLoader.unloadCorePlugins)
+    reactor.addSystemEventTrigger('before', 'shutdown', VortexFactory.shutdown)
 
     reactor.run()
 

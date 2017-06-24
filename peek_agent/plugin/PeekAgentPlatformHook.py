@@ -17,3 +17,13 @@ class PeekAgentPlatformHook(PeekAgentPlatformHookABC):
             "Not an instance of PluginAgentEntryHookABC")
 
         return otherPlugin.publishedAgentApi
+
+    @property
+    def peekServerHttpPort(self) -> int:
+        from peek_platform import PeekPlatformConfig
+        return PeekPlatformConfig.config.peekServerHttpPort
+
+    @property
+    def peekServerHost(self) -> str:
+        from peek_platform import PeekPlatformConfig
+        return PeekPlatformConfig.config.peekServerHost

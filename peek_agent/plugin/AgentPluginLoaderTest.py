@@ -14,7 +14,8 @@ PLUGIN_NOOP = "plugin_noop"
 
 class AgentPluginLoaderTest(unittest.TestCase):
     def testLoadAll(self):
-        agentPluginLoader.loadAllPlugins()
+        agentPluginLoader.loadCorePlugins()
+        agentPluginLoader.loadOptionalPlugins()
 
         logger.info(agentPluginLoader.listPlugins())
 
