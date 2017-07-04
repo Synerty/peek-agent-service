@@ -1,6 +1,8 @@
 import logging
 from typing import Type, Tuple
 
+from twisted.internet.defer import inlineCallbacks
+
 from peek_agent.plugin.PeekAgentPlatformHook import PeekAgentPlatformHook
 from peek_platform.plugin.PluginLoaderABC import PluginLoaderABC
 from peek_plugin_base.PluginCommonEntryHookABC import PluginCommonEntryHookABC
@@ -29,6 +31,7 @@ class AgentPluginLoader(PluginLoaderABC):
     def _platformServiceNames(self) -> [str]:
         return ["agent"]
 
+    @inlineCallbacks
     def _loadPluginThrows(self, pluginName: str,
                           EntryHookClass: Type[PluginCommonEntryHookABC],
                           pluginRootDir: str,
@@ -41,9 +44,9 @@ class AgentPluginLoader(PluginLoaderABC):
                                     platform=platformApi)
 
         # Load the plugin
-        pluginMain.load()
+        yield pluginMain.load()
 
         # Start the Plugin
-        pluginMain.start()
+        yield pluginMain.start()
 
         self._loadedPlugins[pluginName] = pluginMain
