@@ -27,3 +27,8 @@ class PeekAgentPlatformHook(PeekAgentPlatformHookABC):
     def peekServerHost(self) -> str:
         from peek_platform import PeekPlatformConfig
         return PeekPlatformConfig.config.peekServerHost
+
+    @property
+    def serviceId(self) -> str:
+        import socket
+        return "agent|" + socket.gethostname()
