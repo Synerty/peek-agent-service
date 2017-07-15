@@ -35,7 +35,7 @@ class AgentPluginLoader(PluginLoaderABC):
     def _loadPluginThrows(self, pluginName: str,
                           EntryHookClass: Type[PluginCommonEntryHookABC],
                           pluginRootDir: str,
-                          requiresService: Tuple[str, ...]) -> None:
+                          requiresService: Tuple[str, ...]) -> PluginCommonEntryHookABC:
         # Everyone gets their own instance of the plugin API
         platformApi = PeekAgentPlatformHook()
 
@@ -45,8 +45,5 @@ class AgentPluginLoader(PluginLoaderABC):
 
         # Load the plugin
         yield pluginMain.load()
-
-        # Start the Plugin
-        yield pluginMain.start()
 
         self._loadedPlugins[pluginName] = pluginMain
