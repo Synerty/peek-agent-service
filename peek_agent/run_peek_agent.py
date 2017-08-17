@@ -99,6 +99,8 @@ def main():
     # Load all Plugins
     d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadCorePlugins())
     d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadOptionalPlugins())
+    d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.startCorePlugins())
+    d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.startOptionalPlugins())
 
     def startedSuccessfully(_):
         logger.info('Peek Agent is running, version=%s',

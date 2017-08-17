@@ -17,6 +17,10 @@ class AgentPluginLoaderTest(unittest.TestCase):
         agentPluginLoader.loadCorePlugins()
         agentPluginLoader.loadOptionalPlugins()
 
+        agentPluginLoader.startCorePlugins()
+        agentPluginLoader.startOptionalPlugins()
+
+
         logger.info(agentPluginLoader.listPlugins())
 
         for plugin in list(agentPluginLoader._loadedPlugins.values()):
