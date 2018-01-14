@@ -28,10 +28,6 @@ setupLogging()
 
 logger = logging.getLogger(__name__)
 
-# ------------------------------------------------------------------------------
-# Set the parallelism of the database and reactor
-reactor.suggestThreadPoolSize(10)
-
 
 def setupPlatform():
     from peek_platform import PeekPlatformConfig
@@ -56,6 +52,11 @@ def setupPlatform():
     # Set default logging level
     logging.root.setLevel(PeekPlatformConfig.config.loggingLevel)
 
+    if logging.root.level == logging.DEBUG:
+        defer.setDebugging(True)
+
+    reactor.suggestThreadPoolSize(PeekPlatformConfig.config.twistedThreadPoolSize)
+
     # Initialise the txhttputil Directory object
     DirSettings.defaultDirChmod = PeekPlatformConfig.config.DEFAULT_DIR_CHMOD
     DirSettings.tmpDirPath = PeekPlatformConfig.config.tmpPath
@@ -76,17 +77,16 @@ def main():
         PeekPlatformConfig.peekSwInstallManager.restartProcess()
 
     (VortexFactory.subscribeToVortexStatusChange(peekServerName)
-        .filter(lambda online:online == False)
+        .filter(lambda online: online == False)
         .subscribe(on_next=restart)
-     )
-
+        )
 
     # First, setup the VortexServer Agent
 
     from peek_platform import PeekPlatformConfig
     d = VortexFactory.createTcpClient(PeekPlatformConfig.componentName,
-                                       PeekPlatformConfig.config.peekServerHost,
-                                       PeekPlatformConfig.config.peekServerVortexTcpPort)
+                                      PeekPlatformConfig.config.peekServerHost,
+                                      PeekPlatformConfig.config.peekServerVortexTcpPort)
 
     d.addErrback(printFailure)
 
