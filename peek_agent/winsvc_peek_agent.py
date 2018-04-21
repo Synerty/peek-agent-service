@@ -1,7 +1,6 @@
 import platform
 
 import peek_agent
-from peek_platform.restart_peek_winsvc import restartPeekWinSvc
 from peek_platform.sw_install.PeekSwInstallManagerABC import PeekSwInstallManagerABC
 from peek_platform.util.LogUtil import setupServiceLogOutput
 
@@ -27,6 +26,7 @@ class PeekSvc(win32serviceutil.ServiceFramework):
         self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)
 
         reactor.addSystemEventTrigger('after', 'shutdown', self._notifyOfStop)
+        self._restarting = True
 
     def _notifyOfStop(self, _):
         self.ReportServiceStatus(win32service.SERVICE_STOPPED)
@@ -40,16 +40,19 @@ class PeekSvc(win32serviceutil.ServiceFramework):
         reactor.callFromThread(reactor.stop)
 
     def SvcDoRun(self):
-        self.ReportServiceStatus(win32service.SERVICE_START_PENDING)
-        d = run_peek_agent.main()
-        d.addBoth(self._notifyOfStart)
-        reactor.run()
+        while self._restarting:
+            self._restarting = False
+
+            self.ReportServiceStatus(win32service.SERVICE_START_PENDING)
+            d = run_peek_agent.main()
+            d.addBoth(self._notifyOfStart)
+            reactor.run()
 
 
 # Patch the restart method for windows services
 class _Restart:
     def _restartProcess(self):
-        restartPeekWinSvc(PeekSvc._svc_name_)
+        reactor.callFromThread(reactor.stop)
 
 
 # Patch the restart call for windows
