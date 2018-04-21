@@ -1,6 +1,7 @@
 import platform
 
 import peek_agent
+from peek_platform.restart_peek_winsvc import restartPeekWinSvc
 from peek_platform.sw_install.PeekSwInstallManagerABC import PeekSwInstallManagerABC
 from peek_platform.util.LogUtil import setupServiceLogOutput
 
@@ -48,7 +49,7 @@ class PeekSvc(win32serviceutil.ServiceFramework):
 # Patch the restart method for windows services
 class _Restart:
     def _restartProcess(self):
-        win32serviceutil.RestartService(PeekSvc._svc_name_)
+        restartPeekWinSvc(PeekSvc._svc_name_)
 
 
 # Patch the restart call for windows
