@@ -1,5 +1,6 @@
 import platform
 
+from peek_platform.sw_install.PeekSwInstallManagerABC import PeekSwInstallManagerABC
 from peek_platform.util.LogUtil import setupServiceLogOutput
 
 try:
@@ -13,6 +14,7 @@ except ImportError as e:
 from twisted.internet import reactor
 
 from peek_agent import run_peek_agent
+
 
 class PeekSvc(win32serviceutil.ServiceFramework):
     _svc_name_ = "peek_agent"
@@ -41,18 +43,20 @@ class PeekSvc(win32serviceutil.ServiceFramework):
         d.addBoth(self._notifyOfStart)
         reactor.run()
 
+
 # Patch the restart method for windows services
 class _Restart:
     def _restartProcess(self):
         win32serviceutil.RestartService(PeekSvc._svc_name_)
 
+
 # Patch the restart call for windows
-from peek_platform import PeekPlatformConfig
-PeekPlatformConfig.peekSwInstallManager.restartProcess = _Restart._restartProcess
+PeekSwInstallManagerABC.restartProcess = _Restart._restartProcess
+
+
 # end patch
 
 def main():
-
     setupServiceLogOutput(PeekSvc._svc_name_)
     win32serviceutil.HandleCommandLine(PeekSvc)
 
