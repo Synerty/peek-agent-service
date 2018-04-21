@@ -122,8 +122,10 @@ def main():
                                   PeekPlatformConfig.pluginLoader.unloadCorePlugins)
     reactor.addSystemEventTrigger('before', 'shutdown', VortexFactory.shutdown)
 
-    reactor.run()
+    return d
 
 
 if __name__ == '__main__':
     main()
+    reactor.run()
+
