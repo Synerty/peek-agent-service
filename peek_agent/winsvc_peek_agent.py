@@ -30,7 +30,7 @@ class PeekSvc(win32serviceutil.ServiceFramework):
     def _notifyOfStop(self):
         self.ReportServiceStatus(win32service.SERVICE_STOPPED)
 
-    def _notifyOfStart(self, _):
+    def _notifyOfStart(self):
         self.ReportServiceStatus(win32service.SERVICE_RUNNING)
 
     def SvcStop(self):
