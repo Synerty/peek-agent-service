@@ -18,13 +18,13 @@ from twisted.internet import defer
 from twisted.internet import reactor
 from txhttputil.site.FileUploadRequest import FileUploadRequest
 from txhttputil.util.DeferUtil import printFailure
-from txhttputil.util.LoggingUtil import setupLogging
+from peek_platform.util.LogUtil import setupPeekLogger
 
 from peek_plugin_base.PeekVortexUtil import peekAgentName, peekServerName
 from vortex.DeferUtil import vortexLogFailure
 from vortex.VortexFactory import VortexFactory
 
-setupLogging()
+setupPeekLogger(peekAgentName)
 
 logger = logging.getLogger(__name__)
 
@@ -122,10 +122,9 @@ def main():
                                   PeekPlatformConfig.pluginLoader.unloadCorePlugins)
     reactor.addSystemEventTrigger('before', 'shutdown', VortexFactory.shutdown)
 
-    return d
+    reactor.run()
 
 
 if __name__ == '__main__':
     main()
-    reactor.run()
 
