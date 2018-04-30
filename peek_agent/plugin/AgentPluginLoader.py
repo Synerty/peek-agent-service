@@ -1,5 +1,5 @@
 import logging
-from typing import Type, Tuple
+from typing import Type, Tuple, List
 
 from twisted.internet.defer import inlineCallbacks
 
@@ -28,7 +28,7 @@ class AgentPluginLoader(PluginLoaderABC):
         return PluginAgentEntryHookABC
 
     @property
-    def _platformServiceNames(self) -> [str]:
+    def _platformServiceNames(self) -> List[str]:
         return ["agent"]
 
     @inlineCallbacks
