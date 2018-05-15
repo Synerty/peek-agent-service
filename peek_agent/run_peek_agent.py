@@ -90,11 +90,12 @@ def main():
 
     d.addErrback(printFailure)
 
+    # Software update check is not a thing any more
     # Start Update Handler,
     from peek_platform.sw_version.PeekSwVersionPollHandler import peekSwVersionPollHandler
     # Add both, The peek client might fail to connect, and if it does, the payload
     # sent from the peekSwUpdater will be queued and sent when it does connect.
-    d.addBoth(lambda _: peekSwVersionPollHandler.start())
+    # d.addBoth(lambda _: peekSwVersionPollHandler.start())
 
     # Load all Plugins
     d.addBoth(lambda _: PeekPlatformConfig.pluginLoader.loadCorePlugins())
