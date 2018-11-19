@@ -49,6 +49,10 @@ def setupPlatform():
     from peek_agent.PeekAgentConfig import PeekAgentConfig
     PeekPlatformConfig.config = PeekAgentConfig()
 
+    # Update the version in the config file
+    from peek_agent import __version__
+    PeekPlatformConfig.config.platformVersion = __version__
+
     # Set default logging level
     logging.root.setLevel(PeekPlatformConfig.config.loggingLevel)
 
