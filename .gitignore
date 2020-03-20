@@ -14,3 +14,6 @@ build/
 .idea/
 
 MANIFEST
+
+# Ignore sonarscanner
+.scannerwork/
