@@ -13,14 +13,14 @@
 
 import logging
 
+from peek_platform.util.LogUtil import setupPeekLogger, updatePeekLoggerHandlers, \
+    setupLoggingToSysloyServer
+from peek_plugin_base.PeekVortexUtil import peekAgentName, peekServerName
 from pytmpdir.Directory import DirSettings
 from twisted.internet import defer
 from twisted.internet import reactor
 from txhttputil.site.FileUploadRequest import FileUploadRequest
 from txhttputil.util.DeferUtil import printFailure
-from peek_platform.util.LogUtil import setupPeekLogger
-
-from peek_plugin_base.PeekVortexUtil import peekAgentName, peekServerName
 from vortex.DeferUtil import vortexLogFailure
 from vortex.VortexFactory import VortexFactory
 
@@ -55,6 +55,14 @@ def setupPlatform():
 
     # Set default logging level
     logging.root.setLevel(PeekPlatformConfig.config.loggingLevel)
+    updatePeekLoggerHandlers(PeekPlatformConfig.componentName,
+                             PeekPlatformConfig.config.loggingRotateSizeMb,
+                             PeekPlatformConfig.config.loggingRotationsToKeep)
+
+    if PeekPlatformConfig.config.loggingLogToSyslogHost:
+        setupLoggingToSysloyServer(PeekPlatformConfig.config.loggingLogToSyslogHost,
+                                   PeekPlatformConfig.config.loggingLogToSyslogPort,
+                                   PeekPlatformConfig.config.loggingLogToSyslogFacility)
 
     # Enable deferred debugging if DEBUG is on.
     if logging.root.level == logging.DEBUG:
@@ -89,9 +97,9 @@ def main():
         PeekPlatformConfig.peekSwInstallManager.restartProcess()
 
     (VortexFactory.subscribeToVortexStatusChange(peekServerName)
-        .filter(lambda online: online == False)
-        .subscribe(on_next=restart)
-        )
+     .filter(lambda online: online == False)
+     .subscribe(on_next=restart)
+     )
 
     # First, setup the VortexServer Agent
 
@@ -104,7 +112,6 @@ def main():
 
     # Software update check is not a thing any more
     # Start Update Handler,
-    from peek_platform.sw_version.PeekSwVersionPollHandler import peekSwVersionPollHandler
     # Add both, The peek client might fail to connect, and if it does, the payload
     # sent from the peekSwUpdater will be queued and sent when it does connect.
     # d.addBoth(lambda _: peekSwVersionPollHandler.start())
@@ -140,4 +147,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
