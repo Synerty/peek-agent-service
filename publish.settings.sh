@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PY_PACKAGE="peek_agent"
+PY_PACKAGE="peek_agent_service"
 PYPI_PUBLISH="1"
 
 

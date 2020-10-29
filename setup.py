@@ -4,8 +4,8 @@ from setuptools import setup
 
 from setuptools import find_packages
 
-pip_package_name = "peek-agent"
-py_package_name = "peek_agent"
+pip_package_name = "peek-agent-service"
+py_package_name = "peek_agent_service"
 
 package_version = '0.0.0'
 
@@ -46,8 +46,8 @@ setup(
     package_data={'': package_files},
     entry_points={
         'console_scripts': [
-            'run_peek_agent = peek_agent.run_peek_agent:main',
-            'winsvc_peek_agent = peek_agent.winsvc_peek_agent:main',
+            'run_peek_agent_service = peek_agent_service.run_peek_agent_service:main',
+            'winsvc_peek_agent_service = peek_agent_service.winsvc_peek_agent_service:main',
         ],
     },
     install_requires=["peek-platform"],

@@ -1,13 +1,13 @@
 #!/bin/sh
 #
-# peek_agent_pof Peek Agent for PowerOn Fusion
+# peek_agent_service_pof Peek Agent for PowerOn Fusion
 #
 # chkconfig:   2345 20 80
 # description: Peek Agent for PowerOn Fusion
 #
 
 ### BEGIN INIT INFO
-# Provides: peek_agent_pof
+# Provides: peek_agent_service_pof
 # Required-Start:
 # Required-Stop:
 # Should-Start:
@@ -22,14 +22,14 @@
 . /etc/rc.d/init.d/functions
 
 HOME=/users/enmac
-DIR=${HOME}/peek_agent_pof
-DAEMON_NAME=peek_agent_pof
+DIR=${HOME}/peek_agent_service_pof
+DAEMON_NAME=peek_agent_service_pof
 DAEMON_USER=enmac
 
-LAUNCHER="$DIR/run_peek_agent.sh"
+LAUNCHER="$DIR/run_peek_agent_service.sh"
 
 # Change the next 3 lines to suit where you install your script and what you want to call it
-exec="$DIR/run_peek_agent.pyc"
+exec="$DIR/run_peek_agent_service.pyc"
 prog="$DAEMON_NAME"
 
 

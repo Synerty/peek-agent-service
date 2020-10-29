@@ -4,8 +4,8 @@
 
 HOME=/users/enmac
 
-DIR=${HOME}/peek_agent
-AGENT_PYC="$DIR/run_peek_agent.pyc"
+DIR=${HOME}/peek_agent_service
+AGENT_PYC="$DIR/run_peek_agent_service.pyc"
 PYTHON_HOME=${HOME}/python27
 
 # Add the python paths
@@ -17,7 +17,7 @@ export ORACLE_HOME=${PYTHON_HOME}/oracle/instantclient_11_2
 export LD_LIBRARY_PATH=${ORACLE_HOME}
 
 # Rotate Logs
-LOG=$HOME/peek_agent_pof.log
+LOG=$HOME/peek_agent_service_pof.log
 [ -f ${LOG}.1 ] && mv ${LOG}.1 ${LOG}.2
 [ -f ${LOG} ] && mv ${LOG} ${LOG}.1
 

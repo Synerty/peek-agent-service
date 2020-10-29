@@ -34,23 +34,23 @@ def setupPlatform():
     PeekPlatformConfig.componentName = peekAgentName
 
     # Tell the platform classes about our instance of the PluginSwInstallManager
-    from peek_agent.sw_install.PluginSwInstallManager import PluginSwInstallManager
+    from peek_agent_service.sw_install.PluginSwInstallManager import PluginSwInstallManager
     PeekPlatformConfig.pluginSwInstallManager = PluginSwInstallManager()
 
     # Tell the platform classes about our instance of the PeekSwInstallManager
-    from peek_agent.sw_install.PeekSwInstallManager import PeekSwInstallManager
+    from peek_agent_service.sw_install.PeekSwInstallManager import PeekSwInstallManager
     PeekPlatformConfig.peekSwInstallManager = PeekSwInstallManager()
 
     # Tell the platform classes about our instance of the PeekLoaderBase
-    from peek_agent.plugin.AgentPluginLoader import AgentPluginLoader
+    from peek_agent_service.plugin.AgentPluginLoader import AgentPluginLoader
     PeekPlatformConfig.pluginLoader = AgentPluginLoader()
 
     # The config depends on the componentName, order is important
-    from peek_agent.PeekAgentConfig import PeekAgentConfig
+    from peek_agent_service.PeekAgentConfig import PeekAgentConfig
     PeekPlatformConfig.config = PeekAgentConfig()
 
     # Update the version in the config file
-    from peek_agent import __version__
+    from peek_agent_service import __version__
     PeekPlatformConfig.config.platformVersion = __version__
 
     # Set default logging level

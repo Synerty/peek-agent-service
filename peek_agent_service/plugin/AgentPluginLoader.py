@@ -3,7 +3,7 @@ from typing import Type, Tuple, List
 
 from twisted.internet.defer import inlineCallbacks
 
-from peek_agent.plugin.PeekAgentPlatformHook import PeekAgentPlatformHook
+from peek_agent_service.plugin.PeekAgentPlatformHook import PeekAgentPlatformHook
 from peek_platform.plugin.PluginLoaderABC import PluginLoaderABC
 from peek_plugin_base.PluginCommonEntryHookABC import PluginCommonEntryHookABC
 from peek_plugin_base.agent.PluginAgentEntryHookABC import PluginAgentEntryHookABC

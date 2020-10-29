@@ -7,7 +7,7 @@ import peek_platform
 
 peek_platform.PeekPlatformConfig.componentName = "unit_test"
 
-from peek_agent.PeekAgentConfig import PeekAgentConfig
+from peek_agent_service.PeekAgentConfig import PeekAgentConfig
 
 logging.basicConfig(level=logging.DEBUG)
 
