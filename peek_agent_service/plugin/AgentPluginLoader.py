@@ -15,7 +15,9 @@ class AgentPluginLoader(PluginLoaderABC):
     _instance = None
 
     def __new__(cls, *args, **kwargs):
-        assert cls._instance is None, "AgentPluginLoader is a singleton, don't construct it"
+        assert (
+            cls._instance is None
+        ), "AgentPluginLoader is a singleton, don't construct it"
         cls._instance = PluginLoaderABC.__new__(cls)
         return cls._instance
 
@@ -32,16 +34,19 @@ class AgentPluginLoader(PluginLoaderABC):
         return ["agent"]
 
     @inlineCallbacks
-    def _loadPluginThrows(self, pluginName: str,
-                          EntryHookClass: Type[PluginCommonEntryHookABC],
-                          pluginRootDir: str,
-                          requiresService: Tuple[str, ...]) -> PluginCommonEntryHookABC:
+    def _loadPluginThrows(
+        self,
+        pluginName: str,
+        EntryHookClass: Type[PluginCommonEntryHookABC],
+        pluginRootDir: str,
+        requiresService: Tuple[str, ...],
+    ) -> PluginCommonEntryHookABC:
         # Everyone gets their own instance of the plugin API
         platformApi = PeekAgentPlatformHook()
 
-        pluginMain = EntryHookClass(pluginName=pluginName,
-                                    pluginRootDir=pluginRootDir,
-                                    platform=platformApi)
+        pluginMain = EntryHookClass(
+            pluginName=pluginName, pluginRootDir=pluginRootDir, platform=platformApi
+        )
 
         # Load the plugin
         yield pluginMain.load()

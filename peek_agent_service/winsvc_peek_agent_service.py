@@ -12,14 +12,14 @@ logger = logging.getLogger(__name__)
 
 class PeekSvc(win32serviceutil.ServiceFramework):
     _svc_name_ = "peek-agent-service"
-    _svc_display_name_ = "Peek Agent "  + peek_agent_service.__version__
+    _svc_display_name_ = "Peek Agent " + peek_agent_service.__version__
     _exe_args_ = IS_WIN_SVC
     _svc_deps_ = ["RpcSs"]
 
     def __init__(self, args):
         win32serviceutil.ServiceFramework.__init__(self, args)
 
-        reactor.addSystemEventTrigger('after', 'shutdown', self._notifyOfStop)
+        reactor.addSystemEventTrigger("after", "shutdown", self._notifyOfStop)
 
     def _notifyOfStop(self):
         self.ReportServiceStatus(win32service.SERVICE_STOPPED)
@@ -38,6 +38,7 @@ class PeekSvc(win32serviceutil.ServiceFramework):
             reactor.callLater(1, self._notifyOfStart)
 
             from peek_agent_service import run_peek_agent_service
+
             run_peek_agent_service.main()
 
         except Exception as e:
@@ -47,9 +48,10 @@ class PeekSvc(win32serviceutil.ServiceFramework):
 
 # end patch
 
+
 def main():
     win32serviceutil.HandleCommandLine(PeekSvc)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-'''
+"""
  *
  *  Copyright Synerty Pty Ltd 2013
  *
@@ -11,25 +11,27 @@
  * Website : http://www.synerty.com
  * Support : support@synerty.com
  *
-'''
+"""
 import logging
 
 from peek_platform.file_config.PeekFileConfigABC import PeekFileConfigABC
 from peek_platform.file_config.PeekFileConfigOsMixin import PeekFileConfigOsMixin
-from peek_platform.file_config.PeekFileConfigPeekServerClientMixin import \
-    PeekFileConfigPeekServerClientMixin
-from peek_platform.file_config.PeekFileConfigPlatformMixin import \
-    PeekFileConfigPlatformMixin
+from peek_platform.file_config.PeekFileConfigPeekServerClientMixin import (
+    PeekFileConfigPeekServerClientMixin,
+)
+from peek_platform.file_config.PeekFileConfigPlatformMixin import (
+    PeekFileConfigPlatformMixin,
+)
 
 logger = logging.getLogger(__name__)
 
 
-class PeekAgentConfig(PeekFileConfigABC,
-                      PeekFileConfigPeekServerClientMixin,
-                      PeekFileConfigOsMixin,
-                      PeekFileConfigPlatformMixin):
+class PeekAgentConfig(
+    PeekFileConfigABC,
+    PeekFileConfigPeekServerClientMixin,
+    PeekFileConfigOsMixin,
+    PeekFileConfigPlatformMixin,
+):
     """
     This class creates a basic agent configuration
     """
-
-
