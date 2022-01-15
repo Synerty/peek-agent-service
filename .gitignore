@@ -5,13 +5,11 @@
 __pycache__
 
 # Ignore pycharm project settings
-.idea
 
 dist/
 build/
 *.egg-info/
 # Ignore pycharm project files
-.idea/
 
 MANIFEST
 
