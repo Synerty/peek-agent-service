@@ -19,7 +19,7 @@ from peek_platform.util.LogUtil import (
     setupLoggingToSysloyServer,
 )
 from peek_plugin_base.PeekVortexUtil import peekAgentName, peekServerName
-from pytmpdir.Directory import DirSettings
+from pytmpdir.dir_setting import DirSetting
 from twisted.internet import defer
 from twisted.internet import reactor
 from txhttputil.site.FileUploadRequest import FileUploadRequest
@@ -45,7 +45,9 @@ def setupPlatform():
     PeekPlatformConfig.pluginSwInstallManager = PluginSwInstallManager()
 
     # Tell the platform classes about our instance of the PeekSwInstallManager
-    from peek_agent_service.sw_install.PeekSwInstallManager import PeekSwInstallManager
+    from peek_agent_service.sw_install.PeekSwInstallManager import (
+        PeekSwInstallManager,
+    )
 
     PeekPlatformConfig.peekSwInstallManager = PeekSwInstallManager()
 
@@ -94,11 +96,13 @@ def setupPlatform():
         )
 
     # Set the reactor thread count
-    reactor.suggestThreadPoolSize(PeekPlatformConfig.config.twistedThreadPoolSize)
+    reactor.suggestThreadPoolSize(
+        PeekPlatformConfig.config.twistedThreadPoolSize
+    )
 
     # Initialise the txhttputil Directory object
-    DirSettings.defaultDirChmod = PeekPlatformConfig.config.DEFAULT_DIR_CHMOD
-    DirSettings.tmpDirPath = PeekPlatformConfig.config.tmpPath
+    DirSetting.defaultDirChmod = PeekPlatformConfig.config.DEFAULT_DIR_CHMOD
+    DirSetting.tmpDirPath = PeekPlatformConfig.config.tmpPath
     FileUploadRequest.tmpFilePath = PeekPlatformConfig.config.tmpPath
 
 
@@ -158,14 +162,18 @@ def main():
     d.addErrback(vortexLogFailure, logger, consumeError=True)
 
     reactor.addSystemEventTrigger(
-        "before", "shutdown", PeekPlatformConfig.pluginLoader.stopOptionalPlugins
+        "before",
+        "shutdown",
+        PeekPlatformConfig.pluginLoader.stopOptionalPlugins,
     )
     reactor.addSystemEventTrigger(
         "before", "shutdown", PeekPlatformConfig.pluginLoader.stopCorePlugins
     )
 
     reactor.addSystemEventTrigger(
-        "before", "shutdown", PeekPlatformConfig.pluginLoader.unloadOptionalPlugins
+        "before",
+        "shutdown",
+        PeekPlatformConfig.pluginLoader.unloadOptionalPlugins,
     )
     reactor.addSystemEventTrigger(
         "before", "shutdown", PeekPlatformConfig.pluginLoader.unloadCorePlugins
