@@ -16,7 +16,7 @@ import logging
 from peek_platform.util.LogUtil import (
     setupPeekLogger,
     updatePeekLoggerHandlers,
-    setupLoggingToSysloyServer,
+    setupLoggingToSyslogServer,
 )
 from peek_plugin_base.PeekVortexUtil import peekAgentName, peekServerName
 from pytmpdir.dir_setting import DirSetting
@@ -70,13 +70,12 @@ def setupPlatform():
     logging.root.setLevel(PeekPlatformConfig.config.loggingLevel)
     updatePeekLoggerHandlers(
         PeekPlatformConfig.componentName,
-        PeekPlatformConfig.config.loggingRotateSizeMb,
-        PeekPlatformConfig.config.loggingRotationsToKeep,
+        PeekPlatformConfig.config.daysToKeep,
         PeekPlatformConfig.config.logToStdout,
     )
 
     if PeekPlatformConfig.config.loggingLogToSyslogHost:
-        setupLoggingToSysloyServer(
+        setupLoggingToSyslogServer(
             PeekPlatformConfig.config.loggingLogToSyslogHost,
             PeekPlatformConfig.config.loggingLogToSyslogPort,
             PeekPlatformConfig.config.loggingLogToSyslogFacility,
