@@ -18,6 +18,7 @@ from peek_platform.util.LogUtil import (
     updatePeekLoggerHandlers,
     setupLoggingToSyslogServer,
 )
+from peek_platform.util.ManHoleUtil import start_manhole
 from peek_plugin_base.PeekVortexUtil import peekAgentName, peekServerName
 from pytmpdir.dir_setting import DirSetting
 from twisted.internet import defer
@@ -103,6 +104,15 @@ def setupPlatform():
     DirSetting.defaultDirChmod = PeekPlatformConfig.config.DEFAULT_DIR_CHMOD
     DirSetting.tmpDirPath = PeekPlatformConfig.config.tmpPath
     FileUploadRequest.tmpFilePath = PeekPlatformConfig.config.tmpPath
+
+    # Setup manhole
+    if PeekPlatformConfig.config.manholeEnabled:
+        start_manhole(
+            PeekPlatformConfig.config.manholePort,
+            PeekPlatformConfig.config.manholePassword,
+            PeekPlatformConfig.config.manholePublicKeyFile,
+            PeekPlatformConfig.config.manholePrivateKeyFile,
+        )
 
 
 def main():
