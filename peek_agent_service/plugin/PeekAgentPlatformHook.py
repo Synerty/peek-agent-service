@@ -1,7 +1,9 @@
 from typing import Optional
 
 from peek_platform import PeekPlatformConfig
-from peek_plugin_base.agent.PeekAgentPlatformHookABC import PeekAgentPlatformHookABC
+from peek_plugin_base.agent.PeekAgentPlatformHookABC import (
+    PeekAgentPlatformHookABC,
+)
 
 
 class PeekAgentPlatformHook(PeekAgentPlatformHookABC):
@@ -39,3 +41,31 @@ class PeekAgentPlatformHook(PeekAgentPlatformHookABC):
         import socket
 
         return "agent|" + socket.gethostname()
+
+    @property
+    def peekServerSSL(self) -> bool:
+        from peek_platform import PeekPlatformConfig
+
+        return PeekPlatformConfig.config.peekServerSSL
+
+    @property
+    def peekServerSSLEnableMutualTLS(self) -> bool:
+        from peek_platform import PeekPlatformConfig
+
+        return PeekPlatformConfig.config.peekServerSSLEnableMutualTLS
+
+    @property
+    def peekServerSSLClientBundleFilePath(self) -> str:
+        from peek_platform import PeekPlatformConfig
+
+        return PeekPlatformConfig.config.peekServerSSLClientBundleFilePath
+
+    @property
+    def peekServerSSLClientMutualTLSCertificateAuthorityBundleFilePath(
+        self,
+    ) -> str:
+        from peek_platform import PeekPlatformConfig
+
+        return (
+            PeekPlatformConfig.config.peekServerSSLClientMutualTLSCertificateAuthorityBundleFilePath
+        )
