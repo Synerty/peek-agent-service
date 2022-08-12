@@ -139,10 +139,18 @@ def main():
 
     from peek_platform import PeekPlatformConfig
 
-    d = VortexFactory.createTcpClient(
+    scheme = "wss" if PeekPlatformConfig.config.peekServerSSL else "ws"
+    host = PeekPlatformConfig.config.peekServerHost
+    port = PeekPlatformConfig.config.peekServerVortexTcpPort
+
+    d = VortexFactory.createWebsocketClient(
         PeekPlatformConfig.componentName,
-        PeekPlatformConfig.config.peekServerHost,
-        PeekPlatformConfig.config.peekServerVortexTcpPort,
+        host,
+        port,
+        url=f"{scheme}://{host}:{port}/vortexws",
+        sslEnableMutualTLS=PeekPlatformConfig.config.peekServerSSLEnableMutualTLS,
+        sslClientCertificateBundleFilePath=PeekPlatformConfig.config.peekServerSSLClientBundleFilePath,
+        sslMutualTLSCertificateAuthorityBundleFilePath=PeekPlatformConfig.config.peekServerSSLClientMutualTLSCertificateAuthorityBundleFilePath,
     )
 
     d.addErrback(printFailure)
