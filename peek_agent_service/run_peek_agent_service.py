@@ -139,18 +139,21 @@ def main():
 
     from peek_platform import PeekPlatformConfig
 
-    scheme = "wss" if PeekPlatformConfig.config.peekServerSSL else "ws"
-    host = PeekPlatformConfig.config.peekServerHost
-    port = PeekPlatformConfig.config.peekServerHttpPort
+    dataExchangeCfg = PeekPlatformConfig.config.dataExchange
+
+    scheme = "wss" if dataExchangeCfg.peekServerUseSSL else "ws"
+    host = dataExchangeCfg.peekServerHost
+    port = dataExchangeCfg.peekServerHttpPort
 
     d = VortexFactory.createWebsocketClient(
         PeekPlatformConfig.componentName,
         host,
         port,
         url=f"{scheme}://{host}:{port}/vortexws",
-        sslEnableMutualTLS=PeekPlatformConfig.config.peekServerSSLEnableMutualTLS,
-        sslClientCertificateBundleFilePath=PeekPlatformConfig.config.peekServerSSLClientBundleFilePath,
-        sslMutualTLSCertificateAuthorityBundleFilePath=PeekPlatformConfig.config.peekServerSSLClientMutualTLSCertificateAuthorityBundleFilePath,
+        sslEnableMutualTLS=dataExchangeCfg.peekServerSSLEnableMutualTLS,
+        sslClientCertificateBundleFilePath=dataExchangeCfg.peekServerSSLClientBundleFilePath,
+        sslMutualTLSCertificateAuthorityBundleFilePath=dataExchangeCfg.peekServerSSLClientMutualTLSCertificateAuthorityBundleFilePath,
+        sslMutualTLSTrustedPeerCertificateBundleFilePath=dataExchangeCfg.peekServerSSLMutualTLSTrustedPeerCertificateBundleFilePath,
     )
 
     d.addErrback(printFailure)
