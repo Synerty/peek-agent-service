@@ -124,7 +124,7 @@ def main():
     setupPlatform()
 
     # Make the agent restart when the server restarts, or when it looses connection
-    def restart(status):
+    def restart(_=None):
         from peek_platform import PeekPlatformConfig
 
         PeekPlatformConfig.peekSwInstallManager.restartProcess()
@@ -177,9 +177,9 @@ def main():
         )
         return _
 
+    d.addErrback(vortexLogFailure, logger, consumeError=False)
+    d.addErrback(lambda _: restart())
     d.addCallback(startedSuccessfully)
-
-    d.addErrback(vortexLogFailure, logger, consumeError=True)
 
     reactor.addSystemEventTrigger(
         "before",
