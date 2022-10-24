@@ -13,6 +13,8 @@
 
 import logging
 
+from setproctitle import setproctitle
+
 from peek_platform.util.LogUtil import (
     setupPeekLogger,
     updatePeekLoggerHandlers,
@@ -37,6 +39,7 @@ def setupPlatform():
     from peek_platform import PeekPlatformConfig
 
     PeekPlatformConfig.componentName = peekAgentName
+    setproctitle(PeekPlatformConfig.componentName)
 
     # Tell the platform classes about our instance of the PluginSwInstallManager
     from peek_agent_service.sw_install.PluginSwInstallManager import (
